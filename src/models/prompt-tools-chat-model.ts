@@ -22,7 +22,7 @@ interface ToolMeta {
  * Use this when the underlying LLM server doesn't support native
  * OpenAI tool_calls in the response.
  */
-export class PromptToolsChatModel extends BaseChatModel {
+export class OpenAIFullPromptModel extends BaseChatModel {
   private llm: ChatOpenAICompletions
   private boundTools: ToolMeta[] = []
   private llmToolCall: ChatOpenAICompletions;
@@ -38,7 +38,7 @@ export class PromptToolsChatModel extends BaseChatModel {
   }
 
   bindTools(tools: any[], kwargs?: any): this {
-    const bound = new PromptToolsChatModel({ llm: this.llm, llmToolCall: this.llmToolCall })
+    const bound = new OpenAIFullPromptModel({ llm: this.llm, llmToolCall: this.llmToolCall })
     bound.boundTools = tools.map((t) => {
       // OpenAI format: {type: "function", function: {name, description, parameters}}
       if (t.function) {
